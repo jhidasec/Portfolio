@@ -1,0 +1,81 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+<Layout title="Network Scanner — Jeff Hidalgo">
+  <article class="space-y-8">
+    <header class="space-y-3">
+      <p class="text-xs font-mono uppercase tracking-wider text-zinc-500">
+        <a href="/projects" class="hover:text-zinc-300">← Projects</a>
+      </p>
+      <h1 class="text-3xl font-bold tracking-tight">Network Scanner</h1>
+      <p class="text-zinc-400">
+        Multi-stage network discovery and assessment tool with persistent baseline tracking.
+      </p>
+      <p class="text-xs font-mono text-zinc-500">
+        Python · PostgreSQL · Linux · <a href="https://github.com/jhidasec/network-scanner" class="hover:text-zinc-300 underline">GitHub →</a>
+      </p>
+    </header>
+
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">The problem</h2>
+      <p class="text-zinc-300 leading-relaxed">
+        Small businesses rarely know what's actually on their network. A one-time scan
+        tells you what's there today; it doesn't tell you what changed since last quarter,
+        what's new and unexplained, or what services suddenly appeared on a host that
+        shouldn't have them. Most off-the-shelf tools are either enterprise-priced or
+        dump raw data without the context that makes findings actionable.
+      </p>
+      <p class="text-zinc-300 leading-relaxed">
+        I wanted a tool built around the real workflow: scan, store, rescan, diff, report.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">Architecture</h2>
+      <p class="text-zinc-300 leading-relaxed">
+        The scanner is structured in stages, each writing to a PostgreSQL backend so
+        results persist and can be compared across runs:
+      </p>
+      <ol class="list-decimal list-inside space-y-2 text-zinc-300 pl-2">
+        <li><strong class="text-zinc-100">Discovery</strong> — host enumeration across the target range</li>
+        <li><strong class="text-zinc-100">Service identification</strong> — port and service detection on live hosts</li>
+        <li><strong class="text-zinc-100">Enrichment</strong> — banner grabbing, version detection, OS fingerprinting</li>
+        <li><strong class="text-zinc-100">Storage</strong> — normalized writes to <code class="font-mono text-sm bg-zinc-900 px-1 rounded">scanner_db</code> via <code class="font-mono text-sm bg-zinc-900 px-1 rounded">db.py</code>, schema designed for diffability</li>
+        <li><strong class="text-zinc-100">Diff reporting</strong> — comparison between any two scan runs, surfacing new hosts, new services, removed assets, and version changes</li>
+      </ol>
+      <p class="text-zinc-300 leading-relaxed pt-2">
+        The multi-stage design mirrors how multi-agent pentest frameworks decompose work —
+        each stage has a focused job and writes structured output the next stage can consume.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">Why PostgreSQL instead of flat files</h2>
+      <p class="text-zinc-300 leading-relaxed">
+        Diff reporting is the feature, and diffing is a database problem. Flat JSON files
+        force you to re-parse everything on every comparison and don't scale past a handful
+        of scans. With a normalized schema, the diff between scan #4 and scan #11 is a
+        query, not a script.
+      </p>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">What's next</h2>
+      <ul class="list-disc list-inside space-y-1 text-zinc-300 pl-2">
+        <li>Scheduled scan runner with email-delivered reports</li>
+        <li>Severity scoring on diff entries</li>
+        <li>Export formats for client-facing deliverables</li>
+      </ul>
+    </section>
+
+    <section class="space-y-3">
+      <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">What I learned</h2>
+      <p class="text-zinc-300 leading-relaxed">
+        The architecture decisions that felt over-engineered early — separating stages,
+        normalizing the schema, treating diff as a first-class output — are the ones
+        that paid off. Building around the workflow instead of the scan itself changed
+        what the tool actually is.
+      </p>
+    </section>
+  </article>
+</Layout>

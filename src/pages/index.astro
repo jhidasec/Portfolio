@@ -1,11 +1,52 @@
 ---
-import Welcome from '../components/Welcome.astro';
 import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
-
 <Layout>
-	<Welcome />
+  <section class="space-y-6">
+    <h1 class="text-4xl md:text-5xl font-bold tracking-tight">
+      Jeff Hidalgo
+    </h1>
+    <p class="text-xl text-zinc-300">
+      Security engineer focused on offensive security and AI/LLM security. Based in NYC.
+    </p>
+    <p class="text-zinc-400 leading-relaxed">
+      I'm building toward a career at the intersection of penetration testing and AI security.
+      Currently studying for OSCP, running a home lab on Kali, and building tools that solve
+      problems I actually run into.
+    </p>
+  </section>
+
+  <section class="mt-16 space-y-4">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">Recent work</h2>
+    <ul class="space-y-4">
+      <li class="border border-zinc-800 rounded-lg p-5 hover:border-zinc-700 transition-colors">
+        <a href="/projects/scanner" class="block">
+          <h3 class="font-semibold text-zinc-100">Network Scanner</h3>
+          <p class="text-sm text-zinc-400 mt-1">
+            Multi-stage Python scanner with PostgreSQL backend and diff reporting.
+            Built around the real workflow: baseline → rescan → report-what-changed.
+          </p>
+        </a>
+      </li>
+      <li class="border border-zinc-800 rounded-lg p-5 hover:border-zinc-700 transition-colors">
+        <a href="/projects/mlb-model" class="block">
+          <h3 class="font-semibold text-zinc-100">MLB Prediction Model</h3>
+          <p class="text-sm text-zinc-400 mt-1">
+            Gradient boosting models for player props, trained on FanGraphs data 2023-2025,
+            integrated with live odds.
+          </p>
+        </a>
+      </li>
+    </ul>
+  </section>
+
+  <section class="mt-16 space-y-2">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">Currently studying</h2>
+    <p class="text-zinc-300">OSCP · AI/LLM security · Multi-agent pentest tooling</p>
+  </section>
+
+  <section class="mt-8 space-y-2">
+    <h2 class="text-sm font-mono uppercase tracking-wider text-zinc-500">Certifications</h2>
+    <p class="text-zinc-300">A+ · Network+ · Security+</p>
+  </section>
 </Layout>

@@ -1,0 +1,34 @@
+---
+import Layout from '../../layouts/Layout.astro';
+
+const projects = [
+  {
+    href: '/projects/scanner',
+    title: 'Network Scanner',
+    blurb: 'Multi-stage Python scanner with PostgreSQL backend and diff reporting. Designed around the SMB security workflow: baseline → rescan → report what changed.',
+    stack: 'Python · PostgreSQL · Linux',
+  },
+  {
+    href: '/projects/mlb-model',
+    title: 'MLB Prediction Model',
+    blurb: 'Gradient boosting models for MLB player props (K/9, IP/G, total bases), trained on FanGraphs data 2023–2025 and integrated with live odds via The Odds API.',
+    stack: 'Python · scikit-learn · pybaseball',
+  },
+];
+---
+<Layout title="Projects — Jeff Hidalgo">
+  <section class="space-y-8">
+    <h1 class="text-3xl font-bold tracking-tight">Projects</h1>
+    <ul class="space-y-4">
+      {projects.map((p) => (
+        <li class="border border-zinc-800 rounded-lg p-5 hover:border-zinc-700 transition-colors">
+          <a href={p.href} class="block">
+            <h2 class="font-semibold text-zinc-100">{p.title}</h2>
+            <p class="text-sm text-zinc-400 mt-1 leading-relaxed">{p.blurb}</p>
+            <p class="text-xs font-mono text-zinc-500 mt-3">{p.stack}</p>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+</Layout>
