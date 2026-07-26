@@ -1,0 +1,818 @@
+---
+// src/pages/email-security.astro
+//
+// Landing page for the email security service. Written to stand alone —
+// scoped CSS, no Tailwind dependency, no build config needed.
+//
+// TO DO BEFORE DEPLOY:
+//   1. Replace PHONE and EMAIL below.
+//   2. Drop a headshot at /public/jeff.jpg (or change the path in the Who section).
+//   3. If you have a Layout component, wrap the <main> in it and move the
+//      Google Fonts @import into your Layout's <head> as <link> tags.
+//   4. Swap the checker for your existing tool if you'd rather — the panel
+//      markup is marked CHECKER PANEL below.
+
+const PHONE = "(555) 555-5555";
+const EMAIL = "jeffrey@jhidasec.dev";
+const PHONE_HREF = PHONE.replace(/[^\d]/g, "");
+---
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Email Security for Real Estate Offices — Jeff Hidalgo, Astoria NY</title>
+  <meta
+    name="description"
+    content="Free check: can someone send email pretending to be your firm? Domain security for real estate and title offices in Queens, NY."
+  />
+</head>
+<body>
+
+<main>
+
+  <!-- ============================ MASTHEAD ============================ -->
+  <header class="masthead">
+    <a class="mark" href="/">jhidasec</a>
+    <span class="mark-sub">Email security · Astoria, Queens</span>
+  </header>
+
+  <!-- ============================== HERO ============================== -->
+  <section class="hero">
+    <p class="eyebrow">For real estate &amp; title offices</p>
+
+    <h1 class="display">
+      Right now, someone can send<br />
+      an email as your firm.
+    </h1>
+
+    <p class="lede">
+      A buyer gets wiring instructions. The email looks like it came from your
+      office — your domain, your signature, the right closing date. It didn't.
+      By the time anyone notices, the money is gone and it usually doesn't come back.
+    </p>
+
+    <p class="lede">
+      Most small firms have never checked whether their domain allows this.
+      Here's how to find out, free, in about ten seconds.
+    </p>
+
+    <!-- ========================= CHECKER PANEL ========================= -->
+    <div class="terminal" id="checker">
+      <div class="term-head">
+        <span class="term-dot" aria-hidden="true"></span>
+        <span class="term-title">Domain check</span>
+        <span class="term-note">reads public DNS only</span>
+      </div>
+
+      <div class="term-body">
+        <form class="term-form" id="check-form">
+          <label class="sr-only" for="domain">Your domain</label>
+          <span class="prompt" aria-hidden="true">&gt;</span>
+          <input
+            id="domain"
+            name="domain"
+            type="text"
+            placeholder="yourfirm.com"
+            autocomplete="off"
+            autocapitalize="off"
+            spellcheck="false"
+          />
+          <button type="submit" id="run">Run check</button>
+        </form>
+
+        <p class="term-hint" id="hint">
+          Nothing on your systems is touched. This reads the same public records
+          any mail server reads.
+        </p>
+
+        <div class="results" id="results" hidden>
+          <div class="verdict" id="verdict">
+            <span class="stamp" id="stamp">CHECKING</span>
+            <span class="verdict-text" id="verdict-text"></span>
+          </div>
+
+          <dl class="checks" id="checks"></dl>
+
+          <p class="term-cta" id="term-cta" hidden>
+            Want this fixed and documented for your files?
+            <a href={`mailto:${EMAIL}?subject=Domain%20report`}>Get the full report</a>
+          </p>
+        </div>
+      </div>
+    </div>
+    <!-- ======================= END CHECKER PANEL ======================= -->
+  </section>
+
+  <!-- ============================ THE RISK ============================ -->
+  <section class="band">
+    <h2 class="section-title">Why this one matters in real estate</h2>
+
+    <div class="risks">
+      <article class="risk">
+        <h3>Wiring instructions</h3>
+        <p>
+          The highest-value moment in your business is also the easiest to fake.
+          A spoofed email sent days before closing, with new account details,
+          reads as routine to a buyer who is already expecting it.
+        </p>
+      </article>
+
+      <article class="risk">
+        <h3>It lands on you</h3>
+        <p>
+          Even when the fraud happens to a client, the email wore your name.
+          That becomes your reputation problem, your phone call, and sometimes
+          your legal problem.
+        </p>
+      </article>
+
+      <article class="risk">
+        <h3>Your real mail suffers too</h3>
+        <p>
+          The same records that stop impersonation tell Gmail and Outlook your
+          mail is legitimate. Firms that fix this usually see fewer listings and
+          disclosures land in a client's spam folder.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================ SERVICES ============================ -->
+  <section class="band">
+    <h2 class="section-title">What it costs</h2>
+
+    <table class="menu">
+      <thead>
+        <tr>
+          <th scope="col">Service</th>
+          <th scope="col" class="num">Price</th>
+          <th scope="col">What you get</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">Domain check</th>
+          <td class="num free">Free</td>
+          <td>
+            The check above, plus a written one-page report in plain English.
+            No obligation. If your domain is already protected, I'll tell you that.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Setup &amp; fix</th>
+          <td class="num">$400</td>
+          <td>
+            SPF, DKIM and DMARC configured correctly for one domain. No new
+            software, no disruption to your existing email. Verified when done,
+            with a report confirming it.
+          </td>
+        </tr>
+        <tr class="featured">
+          <th scope="row">Full enforcement</th>
+          <td class="num">$800</td>
+          <td>
+            Everything above, taken all the way to a policy that actively blocks
+            impersonation. Rolled out in stages over about 60 days so your real
+            mail is never interrupted.
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Ongoing monitoring</th>
+          <td class="num">$75<span class="per">/mo</span></td>
+          <td>
+            I keep reading the reports and flag anything new. Adjustments when
+            you add a CRM, a scheduler, or a new agent. Cancel anytime.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <p class="fineprint">
+      More than one domain, or mail going out through several tools? The check is
+      still free — I'll quote after I see what's there.
+    </p>
+  </section>
+
+  <!-- ============================== WHO =============================== -->
+  <section class="band who">
+    <div class="who-photo">
+      <img src="/jeff.jpg" alt="Jeff Hidalgo" width="220" height="220" />
+    </div>
+
+    <div class="who-text">
+      <h2 class="section-title">Who you'd be working with</h2>
+      <p>
+        I'm Jeff Hidalgo. I work out of Astoria and I built the checker on this
+        page — it isn't a white-labeled tool I'm reselling. CompTIA Security+
+        certified, with A+ and Network+ behind it.
+      </p>
+      <p>
+        I work with a small number of local offices at a time, which means you
+        get me on the phone rather than a ticket queue. If your domain turns out
+        to be fine, I'll say so and there's no charge. I'd rather have the
+        referral than a $400 invoice you didn't need.
+      </p>
+      <ul class="creds">
+        <li>CompTIA Security+</li>
+        <li>CompTIA Network+</li>
+        <li>CompTIA A+</li>
+        <li>Astoria, Queens</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ============================== CTA =============================== -->
+  <section class="cta">
+    <h2 class="display cta-title">Check your domain, or just ask me.</h2>
+    <p class="cta-sub">
+      Ten seconds for the automatic check above. Or send me your domain and I'll
+      run it by hand and write it up.
+    </p>
+    <p class="cta-links">
+      <a class="btn" href={`mailto:${EMAIL}?subject=Free%20domain%20check`}>{EMAIL}</a>
+      <a class="btn ghost" href={`tel:${PHONE_HREF}`}>{PHONE}</a>
+    </p>
+  </section>
+
+  <footer class="foot">
+    <span>© 2026 Jeff Hidalgo · Astoria, Queens, NY</span>
+    <span><a href="/">Portfolio &amp; security work →</a></span>
+  </footer>
+
+</main>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Serif:wght@500;600&display=swap');
+
+  :root {
+    --paper:     #FBFBF9;
+    --paper-2:   #F0F1EE;
+    --ink:       #16202E;
+    --ink-soft:  #4A5666;
+    --rule:      #CBD1D6;
+    --stamp:     #A32E28;
+    --seal:      #8A6A2F;
+
+    --term-bg:   #10141A;
+    --term-rule: #232B36;
+    --term-txt:  #C7D0DB;
+    --pass:      #55B685;
+    --fail:      #E0574F;
+    --warn:      #D9A441;
+
+    --serif: "IBM Plex Serif", Georgia, serif;
+    --sans:  "IBM Plex Sans", system-ui, sans-serif;
+    --mono:  "IBM Plex Mono", ui-monospace, monospace;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 17px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  main { max-width: 62rem; margin: 0 auto; padding: 0 1.5rem 4rem; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    padding: 0; margin: -1px; overflow: hidden;
+    clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  /* ---------- masthead ---------- */
+  .masthead {
+    display: flex; align-items: baseline; gap: 1rem;
+    padding: 1.75rem 0 1.5rem;
+    border-bottom: 1px solid var(--rule);
+    flex-wrap: wrap;
+  }
+  .mark {
+    font-family: var(--mono);
+    font-size: 1rem; font-weight: 500; letter-spacing: 0.04em;
+    color: var(--ink); text-decoration: none;
+  }
+  .mark-sub {
+    font-family: var(--mono);
+    font-size: 0.8rem; color: var(--ink-soft); letter-spacing: 0.02em;
+  }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 3.5rem 0 3rem; }
+
+  .eyebrow {
+    font-family: var(--mono);
+    font-size: 0.75rem; letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--seal);
+    margin: 0 0 1.5rem;
+  }
+
+  .display {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: clamp(2.1rem, 5.5vw, 3.6rem);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    margin: 0 0 1.75rem;
+  }
+
+  .lede {
+    font-size: 1.1rem;
+    color: var(--ink-soft);
+    max-width: 40rem;
+    margin: 0 0 1.1rem;
+  }
+
+  /* ---------- terminal / checker ---------- */
+  .terminal {
+    margin-top: 2.5rem;
+    background: var(--term-bg);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 18px 40px -22px rgba(22, 32, 46, 0.55);
+  }
+
+  .term-head {
+    display: flex; align-items: center; gap: 0.6rem;
+    padding: 0.75rem 1.1rem;
+    border-bottom: 1px solid var(--term-rule);
+    font-family: var(--mono);
+    font-size: 0.78rem;
+  }
+  .term-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: var(--warn); flex: none;
+  }
+  .term-title { color: var(--term-txt); letter-spacing: 0.03em; }
+  .term-note { margin-left: auto; color: #6B7787; }
+
+  .term-body { padding: 1.4rem 1.1rem 1.5rem; }
+
+  .term-form { display: flex; align-items: center; gap: 0.6rem; flex-wrap: wrap; }
+  .prompt { font-family: var(--mono); color: var(--pass); font-size: 1rem; }
+
+  .term-form input {
+    flex: 1 1 14rem;
+    min-width: 0;
+    background: #171C24;
+    border: 1px solid var(--term-rule);
+    border-radius: 4px;
+    padding: 0.7rem 0.85rem;
+    color: var(--term-txt);
+    font-family: var(--mono);
+    font-size: 0.95rem;
+  }
+  .term-form input::placeholder { color: #5A6675; }
+  .term-form input:focus-visible {
+    outline: 2px solid var(--warn); outline-offset: 1px;
+  }
+
+  .term-form button {
+    flex: none;
+    background: var(--term-txt);
+    color: var(--term-bg);
+    border: 0; border-radius: 4px;
+    padding: 0.7rem 1.2rem;
+    font-family: var(--mono); font-size: 0.9rem; font-weight: 500;
+    cursor: pointer;
+  }
+  .term-form button:hover { background: #FFF; }
+  .term-form button:disabled { opacity: 0.5; cursor: default; }
+  .term-form button:focus-visible { outline: 2px solid var(--warn); outline-offset: 2px; }
+
+  .term-hint {
+    font-family: var(--mono);
+    font-size: 0.76rem; color: #6B7787;
+    margin: 0.9rem 0 0; max-width: 34rem; line-height: 1.5;
+  }
+
+  .results { margin-top: 1.6rem; }
+
+  .verdict {
+    display: flex; align-items: center; gap: 1rem;
+    padding-bottom: 1.1rem; margin-bottom: 0.4rem;
+    border-bottom: 1px solid var(--term-rule);
+    flex-wrap: wrap;
+  }
+
+  .stamp {
+    font-family: var(--mono); font-weight: 500;
+    font-size: 0.82rem; letter-spacing: 0.12em;
+    padding: 0.4rem 0.75rem;
+    border: 2px solid currentColor; border-radius: 3px;
+    transform: rotate(-2.5deg);
+    color: var(--warn);
+  }
+  .stamp.is-risk { color: var(--fail); }
+  .stamp.is-ok   { color: var(--pass); }
+  .stamp.is-set  { animation: land 320ms cubic-bezier(0.2, 1.4, 0.4, 1); }
+
+  @keyframes land {
+    0%   { transform: rotate(-14deg) scale(1.5); opacity: 0; }
+    100% { transform: rotate(-2.5deg) scale(1);  opacity: 1; }
+  }
+
+  .verdict-text {
+    font-family: var(--mono); font-size: 0.85rem;
+    color: var(--term-txt); line-height: 1.5;
+    flex: 1 1 16rem;
+  }
+
+  .checks { margin: 0; }
+  .checks .row {
+    display: grid;
+    grid-template-columns: 4.5rem 4rem 1fr;
+    gap: 0.75rem;
+    align-items: start;
+    padding: 0.85rem 0;
+    border-bottom: 1px solid var(--term-rule);
+  }
+  .checks dt {
+    font-family: var(--mono); font-size: 0.74rem;
+    letter-spacing: 0.1em; color: #6B7787;
+    padding-top: 0.15rem;
+  }
+  .checks .tag {
+    font-family: var(--mono); font-size: 0.68rem; font-weight: 500;
+    letter-spacing: 0.08em;
+    padding: 0.2rem 0.4rem; border-radius: 3px;
+    justify-self: start;
+    border: 1px solid currentColor;
+  }
+  .tag.pass { color: var(--pass); }
+  .tag.warn { color: var(--warn); }
+  .tag.fail { color: var(--fail); }
+  .checks dd {
+    margin: 0;
+    font-family: var(--mono); font-size: 0.82rem; line-height: 1.55;
+    color: var(--term-txt);
+  }
+
+  .term-cta {
+    margin: 1.3rem 0 0;
+    font-family: var(--mono); font-size: 0.85rem; color: var(--term-txt);
+  }
+  .term-cta a { color: var(--warn); }
+
+  /* ---------- bands ---------- */
+  .band { padding: 3.25rem 0; border-top: 1px solid var(--rule); }
+
+  .section-title {
+    font-family: var(--serif);
+    font-weight: 600;
+    font-size: 1.6rem;
+    letter-spacing: -0.01em;
+    margin: 0 0 1.75rem;
+  }
+
+  .risks {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: 2rem 2.5rem;
+  }
+  .risk h3 {
+    font-family: var(--sans);
+    font-size: 0.8rem; font-weight: 600;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--seal);
+    margin: 0 0 0.6rem; padding-top: 0.9rem;
+    border-top: 2px solid var(--ink);
+  }
+  .risk p { margin: 0; color: var(--ink-soft); font-size: 0.98rem; }
+
+  /* ---------- menu table ---------- */
+  .menu {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+  .menu th, .menu td {
+    padding: 1.1rem 1rem 1.1rem 0;
+    border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  .menu thead th {
+    font-family: var(--mono);
+    font-size: 0.7rem; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink-soft);
+    padding-bottom: 0.6rem;
+    border-bottom: 2px solid var(--ink);
+  }
+  .menu tbody th {
+    font-family: var(--sans); font-weight: 600; font-size: 1rem;
+    width: 11rem;
+  }
+  .menu .num {
+    font-family: var(--mono);
+    font-variant-numeric: tabular-nums;
+    font-size: 1.05rem;
+    width: 7rem;
+    white-space: nowrap;
+  }
+  .menu .free { color: var(--pass); }
+  .menu .per { font-size: 0.75rem; color: var(--ink-soft); }
+  .menu td:last-child { color: var(--ink-soft); font-size: 0.95rem; }
+  .menu .featured { background: var(--paper-2); }
+  .menu .featured th, .menu .featured td { padding-left: 0.75rem; }
+  .menu .featured th:first-child { box-shadow: inset 3px 0 0 var(--seal); }
+
+  .fineprint {
+    margin: 1.25rem 0 0;
+    font-size: 0.9rem; color: var(--ink-soft);
+  }
+
+  /* ---------- who ---------- */
+  .who {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    gap: 2.5rem;
+    align-items: start;
+  }
+  .who-photo img {
+    width: 100%; height: auto;
+    border-radius: 4px;
+    display: block;
+    filter: saturate(0.9);
+  }
+  .who-text p { color: var(--ink-soft); margin: 0 0 1rem; }
+
+  .creds {
+    list-style: none; margin: 1.25rem 0 0; padding: 0;
+    display: flex; flex-wrap: wrap; gap: 0.5rem;
+  }
+  .creds li {
+    font-family: var(--mono); font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--rule); border-radius: 3px;
+    color: var(--ink-soft);
+  }
+
+  /* ---------- cta ---------- */
+  .cta {
+    padding: 3.5rem 0 3rem;
+    border-top: 2px solid var(--ink);
+  }
+  .cta-title { font-size: clamp(1.7rem, 4vw, 2.4rem); margin-bottom: 1rem; }
+  .cta-sub { color: var(--ink-soft); max-width: 34rem; margin: 0 0 1.75rem; }
+  .cta-links { display: flex; gap: 0.75rem; flex-wrap: wrap; margin: 0; }
+
+  .btn {
+    display: inline-block;
+    font-family: var(--mono); font-size: 0.9rem;
+    padding: 0.75rem 1.25rem;
+    background: var(--ink); color: var(--paper);
+    border: 1px solid var(--ink);
+    border-radius: 4px;
+    text-decoration: none;
+  }
+  .btn:hover { background: #24344A; }
+  .btn.ghost { background: transparent; color: var(--ink); }
+  .btn.ghost:hover { background: var(--paper-2); }
+  .btn:focus-visible { outline: 2px solid var(--seal); outline-offset: 2px; }
+
+  /* ---------- foot ---------- */
+  .foot {
+    display: flex; justify-content: space-between; gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--rule);
+    font-family: var(--mono); font-size: 0.76rem;
+    color: var(--ink-soft);
+  }
+  .foot a { color: var(--ink-soft); }
+
+  /* ---------- responsive ---------- */
+  @media (max-width: 640px) {
+    body { font-size: 16px; }
+    .who { grid-template-columns: 1fr; }
+    .who-photo img { max-width: 160px; }
+    .checks .row { grid-template-columns: 3.6rem 3.6rem 1fr; gap: 0.5rem; }
+
+    /* stack the price table into cards — a 3-col table can't breathe here */
+    .menu thead { display: none; }
+    .menu, .menu tbody, .menu tr, .menu th, .menu td { display: block; width: auto; }
+    .menu tr {
+      padding: 1.1rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+    .menu th, .menu td {
+      padding: 0;
+      border-bottom: 0;
+    }
+    .menu tbody th { font-size: 1.05rem; }
+    .menu .num {
+      font-size: 1.3rem;
+      margin: 0.15rem 0 0.5rem;
+      color: var(--seal);
+    }
+    .menu .free { color: var(--pass); }
+    .menu .featured { padding-left: 0.85rem; }
+    .menu .featured th:first-child { box-shadow: none; }
+    .menu .featured { box-shadow: inset 3px 0 0 var(--seal); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .stamp.is-set { animation: none; }
+    * { transition: none !important; }
+  }
+</style>
+
+<script is:inline>
+  (function () {
+    var form     = document.getElementById('check-form');
+    var input    = document.getElementById('domain');
+    var button   = document.getElementById('run');
+    var results  = document.getElementById('results');
+    var checksEl = document.getElementById('checks');
+    var stamp    = document.getElementById('stamp');
+    var vtext    = document.getElementById('verdict-text');
+    var cta      = document.getElementById('term-cta');
+
+    var DOH = 'https://cloudflare-dns.com/dns-query';
+
+    function query(name, type) {
+      return fetch(DOH + '?name=' + encodeURIComponent(name) + '&type=' + type, {
+        headers: { accept: 'application/dns-json' }
+      }).then(function (r) {
+        if (!r.ok) throw new Error('DNS lookup failed');
+        return r.json();
+      });
+    }
+
+    // TXT answers arrive quoted and sometimes split into chunks.
+    function txtRecords(json) {
+      if (!json || !json.Answer) return [];
+      return json.Answer
+        .filter(function (a) { return a.type === 16; })
+        .map(function (a) {
+          return String(a.data).replace(/" "/g, '').replace(/^"|"$/g, '');
+        });
+    }
+
+    function cleanDomain(raw) {
+      return raw.trim().toLowerCase()
+        .replace(/^https?:\/\//, '')
+        .replace(/^www\./, '')
+        .replace(/\/.*$/, '')
+        .replace(/\s/g, '');
+    }
+
+    function row(label, state, text) {
+      var tagClass = state === 'pass' ? 'pass' : (state === 'warn' ? 'warn' : 'fail');
+      var tagText  = state === 'pass' ? 'PASS' : (state === 'warn' ? 'WEAK' : 'FAIL');
+      var div = document.createElement('div');
+      div.className = 'row';
+      div.innerHTML =
+        '<dt>' + label + '</dt>' +
+        '<dd class="tag ' + tagClass + '">' + tagText + '</dd>' +
+        '<dd></dd>';
+      div.querySelectorAll('dd')[1].textContent = text;
+      return div;
+    }
+
+    function checkSpf(domain) {
+      return query(domain, 'TXT').then(function (json) {
+        var spf = txtRecords(json).find(function (t) {
+          return t.toLowerCase().indexOf('v=spf1') === 0;
+        });
+        if (!spf) {
+          return { state: 'fail', text: 'No SPF record. Nothing declares which servers may send mail as your domain.' };
+        }
+        if (/-all\s*$/.test(spf)) {
+          return { state: 'pass', text: 'SPF present and strict. Unauthorised senders are rejected.' };
+        }
+        if (/~all\s*$/.test(spf)) {
+          return { state: 'warn', text: 'SPF is set to soft-fail. Unauthorised senders get flagged, not rejected.' };
+        }
+        return { state: 'warn', text: 'SPF present but the policy is permissive. Worth tightening.' };
+      });
+    }
+
+    function checkDmarc(domain) {
+      return query('_dmarc.' + domain, 'TXT').then(function (json) {
+        var rec = txtRecords(json).find(function (t) {
+          return t.toLowerCase().indexOf('v=dmarc1') === 0;
+        });
+        if (!rec) {
+          return { state: 'fail', text: 'No DMARC record. Receiving servers have no instruction, so fakes get delivered.' };
+        }
+        var m = /p\s*=\s*(none|quarantine|reject)/i.exec(rec);
+        var p = m ? m[1].toLowerCase() : 'none';
+        if (p === 'reject') {
+          return { state: 'pass', text: 'DMARC set to reject. Impersonation attempts are actively blocked.' };
+        }
+        if (p === 'quarantine') {
+          return { state: 'warn', text: 'DMARC set to quarantine. Fakes go to spam rather than being blocked outright.' };
+        }
+        return { state: 'fail', text: 'DMARC is monitoring only (p=none). It reports on abuse but blocks nothing.' };
+      });
+    }
+
+    // DKIM lives at <selector>._domainkey.<domain> and the selector isn't
+    // discoverable, so infer likely ones from the MX and try a short list.
+    function checkDkim(domain) {
+      return query(domain, 'MX').then(function (json) {
+        var mx = (json.Answer || [])
+          .map(function (a) { return String(a.data).toLowerCase(); })
+          .join(' ');
+
+        var selectors;
+        if (mx.indexOf('google') !== -1) {
+          selectors = ['google', 'default'];
+        } else if (mx.indexOf('outlook') !== -1 || mx.indexOf('microsoft') !== -1) {
+          selectors = ['selector1', 'selector2'];
+        } else {
+          selectors = ['default', 'google', 'selector1', 'k1', 'dkim', 'mail'];
+        }
+
+        var i = 0;
+        function next() {
+          if (i >= selectors.length) {
+            return {
+              state: 'warn',
+              text: 'No DKIM key found at the usual selector names. It may exist under a custom one — worth confirming by hand.'
+            };
+          }
+          var sel = selectors[i++];
+          return query(sel + '._domainkey.' + domain, 'TXT').then(function (r) {
+            var found = txtRecords(r).find(function (t) {
+              return t.toLowerCase().indexOf('v=dkim1') !== -1 || t.indexOf('p=') !== -1;
+            });
+            if (found) {
+              return { state: 'pass', text: 'DKIM key found at selector "' + sel + '". Outgoing mail is cryptographically signed.' };
+            }
+            return next();
+          }).catch(next);
+        }
+        return next();
+      });
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      var domain = cleanDomain(input.value);
+
+      if (!domain || domain.indexOf('.') === -1) {
+        results.hidden = false;
+        checksEl.innerHTML = '';
+        cta.hidden = true;
+        stamp.className = 'stamp';
+        stamp.textContent = 'CHECK THAT';
+        vtext.textContent = 'That doesn\u2019t look like a domain. Try the part after the @ in your email address, e.g. yourfirm.com';
+        return;
+      }
+
+      button.disabled = true;
+      button.textContent = 'Checking\u2026';
+      results.hidden = false;
+      checksEl.innerHTML = '';
+      cta.hidden = true;
+      stamp.className = 'stamp';
+      stamp.textContent = 'CHECKING';
+      vtext.textContent = 'Reading public DNS records for ' + domain + '\u2026';
+
+      Promise.all([checkSpf(domain), checkDkim(domain), checkDmarc(domain)])
+        .then(function (out) {
+          var spf = out[0], dkim = out[1], dmarc = out[2];
+
+          checksEl.innerHTML = '';
+          checksEl.appendChild(row('SPF',   spf.state,   spf.text));
+          checksEl.appendChild(row('DKIM',  dkim.state,  dkim.text));
+          checksEl.appendChild(row('DMARC', dmarc.state, dmarc.text));
+
+          var passes = [spf, dkim, dmarc].filter(function (c) { return c.state === 'pass'; }).length;
+          var protectedNow = dmarc.state === 'pass' && spf.state !== 'fail';
+
+          stamp.className = 'stamp is-set ' + (protectedNow ? 'is-ok' : 'is-risk');
+          stamp.textContent = protectedNow ? 'PROTECTED' : 'AT RISK';
+
+          vtext.textContent = protectedNow
+            ? passes + ' of 3 checks passed for ' + domain + '. Your domain is enforcing against impersonation.'
+            : passes + ' of 3 checks passed for ' + domain + '. As it stands, mail can be sent that appears to come from your firm.';
+
+          cta.hidden = protectedNow;
+        })
+        .catch(function () {
+          stamp.className = 'stamp';
+          stamp.textContent = 'NO RESULT';
+          vtext.textContent = 'Couldn\u2019t reach the DNS service just now. Try again, or email me the domain and I\u2019ll check it by hand.';
+        })
+        .then(function () {
+          button.disabled = false;
+          button.textContent = 'Run check';
+        });
+    });
+  })();
+</script>
+
+</body>
+</html>
